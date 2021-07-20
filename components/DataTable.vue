@@ -51,20 +51,55 @@
         </b-tr>
         <b-tr>
           <b-th v-for="column in selectedColumns" :key="column.id">
-            <b-form-select v-if="column.type === 'select'" v-model="column.filter" @input="applyColumnFilters">
-              <b-form-select-option value="" />
-              <b-form-select-option v-for="(value, index) in column.values" :key="index" :value="value">
-                {{ value }}
-              </b-form-select-option>
-            </b-form-select>
-            <b-form-input v-else v-model="column.filter" @input="applyColumnFilters" />
+            <b-row :no-gutters="column.tooltip">
+              <b-col :cols="column.tooltip ? 10 : 12">
+                <b-form-select v-if="column.type === 'select'" v-model="column.filter" @input="applyColumnFilters">
+                  <b-form-select-option value="" />
+                  <b-form-select-option v-for="(value, index) in column.values" :key="index" :value="value">
+                    {{ value }}
+                  </b-form-select-option>
+                </b-form-select>
+                <b-input-group v-else-if="column.type === 'date'">
+                  <b-form-input
+                    v-model="column.filter"
+                    type="text"
+                    placeholder="MM/DD/YYYY"
+                    @input="applyColumnFilters"
+                  />
+                  <b-input-group-append>
+                    <b-form-datepicker
+                      button-only
+                      right
+                      locale="en-US"
+                      :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
+                      @input="applyContext($event, column)"
+                    />
+                  </b-input-group-append>
+                </b-input-group>
+                <b-form-input v-else v-model="column.filter" @input="applyColumnFilters" />
+              </b-col>
+              <b-col v-if="column.tooltip" cols="2" class="d-flex align-items-center">
+                <b-icon :id="`tooltip-target-${column.name}`" icon="exclamation-circle-fill" variant="dark" class="ml-2" />
+                <b-tooltip :target="`tooltip-target-${column.name}`" triggers="hover">
+                  {{ column.tooltip_note }}
+                </b-tooltip>
+              </b-col>
+            </b-row>
           </b-th>
         </b-tr>
       </b-thead>
       <b-tbody>
         <b-tr v-for="item in pageItems" :key="item.id">
           <b-td v-for="column in selectedColumns" :key="column.id">
-            {{ item[column.name] }}
+            <b-link v-if="column.type === 'link'" :href="item['_cellVariants'][column.name]['url']" :target="item['_cellVariants'][column.name]['target']">
+              {{ item[column.name] }}
+            </b-link>
+            <b-link v-else-if="column.type === 'email'" :href="`mailto:${item[column.name]}`">
+              {{ item[column.name] }}
+            </b-link>
+            <template v-else>
+              {{ item[column.name] }}
+            </template>
           </b-td>
         </b-tr>
         <b-tr v-if="pageItems.length === 0">
@@ -198,6 +233,11 @@ export default {
       this.selectedColumns = this.allColumns.filter(item => item.selected)
       this.sortBy.column = ''
       this.loadPageItems(this.currentPage)
+    },
+    applyContext (ctx, column) {
+      const dateAry = ctx.split('-')
+      column.filter = `${dateAry[1]}/${dateAry[2]}/${dateAry[0]}`
+      this.applyColumnFilters()
     },
     applyColumnFilters () {
       this.loadPageItems(this.currentPage)

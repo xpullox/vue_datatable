@@ -3,9 +3,10 @@
     "id": 1,
     "name": "number",
     "title": "Customer #",
-    "type": "integer",
+    "type": "link",
     "selected": true,
     "order_key": 1,
+    "tooltip": false,
     "filter": ""
   },
   {
@@ -15,6 +16,8 @@
     "type": "string",
     "selected": true,
     "order_key": 2,
+    "tooltip": true,
+    "tooltip_note": "This is column description.",
     "filter": ""
   },
   {
@@ -24,15 +27,17 @@
     "type": "string",
     "selected": true,
     "order_key": 3,
+    "tooltip": false,
     "filter": ""
   },
   {
     "id": 4,
     "name": "last_order_date",
     "title": "Last Order Date",
-    "type": "string",
+    "type": "date",
     "selected": true,
     "order_key": 4,
+    "tooltip": false,
     "filter": ""
   },
   {
@@ -42,15 +47,17 @@
     "type": "string",
     "selected": true,
     "order_key": 5,
+    "tooltip": false,
     "filter": ""
   },
   {
     "id": 6,
     "name": "email",
     "title": "Email",
-    "type": "string",
+    "type": "email",
     "selected": true,
     "order_key": 6,
+    "tooltip": false,
     "filter": ""
   },
   {
@@ -66,6 +73,7 @@
     ],
     "selected": true,
     "order_key": 7,
+    "tooltip": false,
     "filter": ""
   },
   {
@@ -75,6 +83,7 @@
     "type": "string",
     "selected": true,
     "order_key": 8,
+    "tooltip": false,
     "filter": ""
   },
   {
@@ -84,6 +93,7 @@
     "type": "string",
     "selected": false,
     "order_key": 9,
+    "tooltip": false,
     "filter": ""
   },
   {
@@ -93,6 +103,7 @@
     "type": "string",
     "selected": false,
     "order_key": 10,
+    "tooltip": false,
     "filter": ""
   },
   {
@@ -102,6 +113,7 @@
     "type": "string",
     "selected": false,
     "order_key": 11,
+    "tooltip": false,
     "filter": ""
   }
 ]

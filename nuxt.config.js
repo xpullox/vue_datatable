@@ -56,6 +56,10 @@ export default {
     '@nuxtjs/axios'
   ],
 
+  bootstrapVue: {
+    icons: true
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
