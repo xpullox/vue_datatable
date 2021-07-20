@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "name": "number",
+    "title": "Customer #",
+    "type": "integer",
+    "selected": true,
+    "order_key": 1,
+    "filter": ""
+  },
+  {
+    "id": 2,
+    "name": "first_name",
+    "title": "First Name",
+    "type": "string",
+    "selected": true,
+    "order_key": 2,
+    "filter": ""
+  },
+  {
+    "id": 3,
+    "name": "last_name",
+    "title": "Last Name",
+    "type": "string",
+    "selected": true,
+    "order_key": 3,
+    "filter": ""
+  },
+  {
+    "id": 4,
+    "name": "last_order_date",
+    "title": "Last Order Date",
+    "type": "string",
+    "selected": true,
+    "order_key": 4,
+    "filter": ""
+  },
+  {
+    "id": 5,
+    "name": "stylist",
+    "title": "Customer Stylist",
+    "type": "string",
+    "selected": true,
+    "order_key": 5,
+    "filter": ""
+  },
+  {
+    "id": 6,
+    "name": "email",
+    "title": "Email",
+    "type": "string",
+    "selected": true,
+    "order_key": 6,
+    "filter": ""
+  },
+  {
+    "id": 7,
+    "name": "tier",
+    "title": "Customer Tier",
+    "type": "select",
+    "values": [
+      "A",
+      "AI",
+      "AII",
+      "AIII"
+    ],
+    "selected": true,
+    "order_key": 7,
+    "filter": ""
+  },
+  {
+    "id": 8,
+    "name": "type",
+    "title": "Customer Type",
+    "type": "string",
+    "selected": true,
+    "order_key": 8,
+    "filter": ""
+  },
+  {
+    "id": 9,
+    "name": "column_1",
+    "title": "Additional Column 1",
+    "type": "string",
+    "selected": false,
+    "order_key": 9,
+    "filter": ""
+  },
+  {
+    "id": 10,
+    "name": "column_2",
+    "title": "Additional Column 2",
+    "type": "string",
+    "selected": false,
+    "order_key": 10,
+    "filter": ""
+  },
+  {
+    "id": 11,
+    "name": "column_3",
+    "title": "Additional Column 3",
+    "type": "string",
+    "selected": false,
+    "order_key": 11,
+    "filter": ""
+  }
+]
