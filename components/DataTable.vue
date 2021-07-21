@@ -54,23 +54,6 @@
             <b-row :no-gutters="column.tooltip">
               <b-col :cols="column.tooltip ? 10 : 12">
                 <v-select v-if="column.type === 'select'" v-model="column.filter" :multiple="column.multiple" :options="column.values" @input="applyColumnFilters" />
-                <!--                <b-input-group v-else-if="column.type === 'date'">-->
-                <!--                  <b-form-input-->
-                <!--                    v-model="column.filter"-->
-                <!--                    type="text"-->
-                <!--                    placeholder="MM/DD/YYYY"-->
-                <!--                    @input="applyColumnFilters"-->
-                <!--                  />-->
-                <!--                  <b-input-group-append>-->
-                <!--                    <b-form-datepicker-->
-                <!--                      button-only-->
-                <!--                      right-->
-                <!--                      locale="en-US"-->
-                <!--                      :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"-->
-                <!--                      @input="applyContext($event, column)"-->
-                <!--                    />-->
-                <!--                  </b-input-group-append>-->
-                <!--                </b-input-group>-->
                 <custom-datetime-picker v-else-if="column.type === 'date'" :change-date-val="changeFilterDate" :id-str="column.name" :param="`${c}`" />
                 <b-form-input v-else v-model="column.filter" @input="applyColumnFilters" />
               </b-col>
