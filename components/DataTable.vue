@@ -50,38 +50,54 @@
           </b-th>
         </b-tr>
         <b-tr>
-          <b-th v-for="column in selectedColumns" :key="column.id">
+          <b-th v-for="(column, c) in selectedColumns" :key="column.id">
             <b-row :no-gutters="column.tooltip">
               <b-col :cols="column.tooltip ? 10 : 12">
-                <b-form-select v-if="column.type === 'select'" v-model="column.filter" @input="applyColumnFilters">
-                  <b-form-select-option value="" />
-                  <b-form-select-option v-for="(value, index) in column.values" :key="index" :value="value">
-                    {{ value }}
-                  </b-form-select-option>
-                </b-form-select>
-                <b-input-group v-else-if="column.type === 'date'">
-                  <b-form-input
-                    v-model="column.filter"
-                    type="text"
-                    placeholder="MM/DD/YYYY"
-                    @input="applyColumnFilters"
-                  />
-                  <b-input-group-append>
-                    <b-form-datepicker
-                      button-only
-                      right
-                      locale="en-US"
-                      :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"
-                      @input="applyContext($event, column)"
-                    />
-                  </b-input-group-append>
-                </b-input-group>
+                <v-select v-if="column.type === 'select'" v-model="column.filter" :multiple="column.multiple" :options="column.values" @input="applyColumnFilters" />
+                <!--                <b-input-group v-else-if="column.type === 'date'">-->
+                <!--                  <b-form-input-->
+                <!--                    v-model="column.filter"-->
+                <!--                    type="text"-->
+                <!--                    placeholder="MM/DD/YYYY"-->
+                <!--                    @input="applyColumnFilters"-->
+                <!--                  />-->
+                <!--                  <b-input-group-append>-->
+                <!--                    <b-form-datepicker-->
+                <!--                      button-only-->
+                <!--                      right-->
+                <!--                      locale="en-US"-->
+                <!--                      :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }"-->
+                <!--                      @input="applyContext($event, column)"-->
+                <!--                    />-->
+                <!--                  </b-input-group-append>-->
+                <!--                </b-input-group>-->
+                <custom-datetime-picker v-else-if="column.type === 'date'" :change-date-val="changeFilterDate" :id-str="column.name" :param="`${c}`" />
                 <b-form-input v-else v-model="column.filter" @input="applyColumnFilters" />
               </b-col>
               <b-col v-if="column.tooltip" cols="2" class="d-flex align-items-center">
                 <b-icon :id="`tooltip-target-${column.name}`" icon="exclamation-circle-fill" variant="dark" class="ml-2" />
-                <b-tooltip :target="`tooltip-target-${column.name}`" triggers="hover">
-                  {{ column.tooltip_note }}
+                <b-popover
+                  v-if="column.tooltip_html"
+                  ref="popover"
+                  :show.sync="popoverShow"
+                  :target="`tooltip-target-${column.name}`"
+                  triggers="click"
+                  placement="top"
+                >
+                  <template #title>
+                    <b-button class="close ml-1 pop-close" aria-label="Close" @click="onTooltipClose">
+                      <span class="d-inline-block" aria-hidden="true">&times;</span>
+                    </b-button>
+                    Possible HTML
+                  </template>
+                  <b-row>
+                    <!-- eslint-disable vue/no-v-html -->
+                    <b-col v-html="column.tooltip_content" />
+                    <!--eslint-enable-->
+                  </b-row>
+                </b-popover>
+                <b-tooltip v-else :target="`tooltip-target-${column.name}`" triggers="hover">
+                  {{ column.tooltip_content }}
                 </b-tooltip>
               </b-col>
             </b-row>
@@ -182,7 +198,8 @@ export default {
       sortBy: {
         column: '',
         order: 'ascending'
-      }
+      },
+      popoverShow: false
     }
   },
   created () {
@@ -200,6 +217,10 @@ export default {
     loadPageItems (page) {
       const filteredItems = dataSample.filter((item) => {
         return this.selectedColumns.every((column) => {
+          if (!column.filter) {
+            return true
+          }
+
           if (column.filter.trim().length > 0) {
             if (column.type === 'select') {
               if (String(item[column.name]) !== String(column.filter)) {
@@ -209,6 +230,7 @@ export default {
               return false
             }
           }
+
           return true
         })
       }).sort((a, b) => {
@@ -239,6 +261,12 @@ export default {
       column.filter = `${dateAry[1]}/${dateAry[2]}/${dateAry[0]}`
       this.applyColumnFilters()
     },
+    changeFilterDate (ind, value) {
+      // eslint-disable-next-line no-console
+      // console.log('col-ind', ind, 'date-val', value)
+      this.selectedColumns[ind].filter = value
+      this.applyColumnFilters()
+    },
     applyColumnFilters () {
       this.loadPageItems(this.currentPage)
     },
@@ -254,6 +282,9 @@ export default {
         this.sortBy.order = 'ascending'
       }
       this.loadPageItems(this.currentPage)
+    },
+    onTooltipClose () {
+      this.popoverShow = false
     }
   }
 }
@@ -275,5 +306,22 @@ export default {
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+</style>
+<style>
+.vs__search, .vs__search:focus {
+  line-height: 1.65 !important;
+}
+
+.vs__dropdown-toggle {
+  border: 1px solid #ced4da !important;
+}
+
+.vs__dropdown-menu li {
+  font-weight: normal !important;
+}
+
+.pop-close {
+  line-height: 17px;
 }
 </style>

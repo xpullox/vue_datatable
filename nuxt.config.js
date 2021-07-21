@@ -1,3 +1,6 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const webpack = require('webpack')
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -34,10 +37,31 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: [
+    '~node_modules/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css',
+    '~node_modules/glyphicons-only-bootstrap/css/bootstrap.min.css'
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    {
+      ssr: false,
+      src: '~node_modules/jquery/dist/jquery.min.js'
+    },
+    {
+      ssr: false,
+      src: '~node_modules/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js'
+    },
+    {
+      ssr: false,
+      src: '~plugins/vue-select.js'
+    },
+    {
+      ssr: false,
+      src: '~plugins/datetimepicker.js'
+    },
+    '~/plugins/bus'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -64,5 +88,14 @@ export default {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {
+    /**
+     * add external plugins
+     */
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: 'jquery'
+      })
+    ]
+  }
 }

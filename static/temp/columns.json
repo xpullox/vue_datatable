@@ -17,7 +17,8 @@
     "selected": true,
     "order_key": 2,
     "tooltip": true,
-    "tooltip_note": "This is column description.",
+    "tooltip_html": true,
+    "tooltip_content": "This is <a href=\"https://html.com\">HTML</a> tooltip",
     "filter": ""
   },
   {
@@ -66,11 +67,13 @@
     "title": "Customer Tier",
     "type": "select",
     "values": [
+      "",
       "A",
       "AI",
       "AII",
       "AIII"
     ],
+    "multiple": false,
     "selected": true,
     "order_key": 7,
     "tooltip": false,
