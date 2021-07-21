@@ -1,7 +1,7 @@
 <!--suppress JSUnresolvedVariable -->
 <template>
   <b-input-group :id="`custom-bootstrap-picker-${idStr}`">
-    <b-form-input :id="`custom-bootstrap-picker-input-${idStr}`" v-model="dateVal" readonly @input="changeDateVal(param, dateVal)" @blur="loseFocus" />
+    <b-form-input :id="`custom-bootstrap-picker-input-${idStr}`" v-model="dateVal" @input="changeDateVal(param, dateVal)" @blur="loseFocus" />
     <b-input-group-append>
       <b-button variant="secondary" @mouseover="hovered = true" @mouseout="hovered = false" @click="openPicker">
         <b-icon icon="calendar2-fill" @click="openPicker" />
